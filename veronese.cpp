@@ -171,21 +171,21 @@ std::vector<std::vector<std::vector<int>>> tuples(int n, int d) {
 
 int main() {
 
-int n=2;
-int d=2;
+int n=5;
+int d=6;
 
 //std::cout<<"\ntuples with sums that appear at least twice: \n"<<tuples(n,d)<<"\n";
 
-//std::cout<<"\n"<<(tuples(n,d)).size()<<(tuples(n,d).size()==1 ? " sum appears" : " sums appear")<<" at least twice";
+std::cout<<"\n"<<(tuples(n,d)).size()<<(tuples(n,d).size()==1 ? " sum appears" : " sums appear")<<" at least twice";
 
 
-
-for (int D=0;D<5;++D) {
-	for (int N=0;N<5;++N) {
+/*
+for (int D=0;D<6;++D) {
+	for (int N=0;N<6;++N) {
 		std::cout<<(tuples(N,D)).size()<<" sums appear least twice for (n,d) = "<<"("<<N<<","<<D<<")\n";
 	}
 }
-
+*/
 
 /*
 std::cout<<"\ncorresponding to the following additions:" ;
