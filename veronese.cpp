@@ -94,27 +94,27 @@ std::ostream& operator<<(std::ostream& os, const std::vector<T>& xs) {
 
 int main() {
 
-int n=2;
-int d=2;
+int n=1;
+int d=8;
+
+// vec is the standard starting vector, i.e. the biggest vector with sum of d.
 std::vector<int> vec(n+1);
 vec[0]=d;
+
+// N is the number of possible derivations from vec, i.e. how many vectors there are which have sum of d
 int N=binomial(n+d,d);
 
+// some vectors for iteration
 std::vector<int> iterator_vector_i=vec;
 std::vector<int> iterator_vector_j=vec;
-
-/*
-for (int i=0;i<N;++i) {
-	std::cout<<iterator_vector<<"\n";
-	iterator_vector=next_vector(iterator_vector,d);
-}
-*/
 
 std::vector<int> iterator_for_vector_list=vec;
 std::vector<std::vector<int>> vectors;
 for (int i=0;i<N;++i) {
 	vectors.push_back(iterator_for_vector_list);
-	iterator_for_vector_list=next_vector(iterator_for_vector_list,d);
+	if (i!=N-1) {
+		iterator_for_vector_list=next_vector(iterator_for_vector_list,d);
+	}
 }
 
 std::vector<int> sum_matrix[N][N];
@@ -166,19 +166,21 @@ for (int i=0;i<N;++i) {
 	}
 }
 
-std::cout<<"\ntuples that appear at least twice: \n"<<tuples<<"\n";
+std::cout<<"\ntuples with sums that appear at least twice: \n"<<tuples<<"\n";
 
+std::cout<<"\n"<<tuples.size()<<(tuples.size()==1 ? " sum appears" : " sums appear")<<" at least twice";
+
+std::cout<<"\ncorresponding to the following additions:" ;
 std::vector<int> iterate_tuple;
 for (int r=0;r<tuples.size();++r) {
 	std::vector<std::vector<int>> tuple_r=tuples[r];
 	std::stringstream s;
 	for (int m=0;m<tuple_r.size();++m) {
 		iterate_tuple=tuple_r[m];
-		s<<vectors[iterate_tuple[0]]<<"+"<<vectors[iterate_tuple[1]]<<((m==tuple_r.size()-1) ? "" : "=");
+		s<<vectors[iterate_tuple[0]]<<" + "<<vectors[iterate_tuple[1]]<<((m==tuple_r.size()-1) ? "" : " = ");
 	}
 	std::cout<<"\n"<<s.str();
 }
-
 
 
 }
