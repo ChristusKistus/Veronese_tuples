@@ -1,5 +1,6 @@
 #include<iostream>
 #include<vector>
+#include<sstream>
 
 int fac(int m) {
 	if (m==0) {
@@ -98,8 +99,6 @@ int d=2;
 std::vector<int> vec(n+1);
 vec[0]=d;
 int N=binomial(n+d,d);
-std::cout<<N<<"\n";
-
 
 std::vector<int> iterator_vector_i=vec;
 std::vector<int> iterator_vector_j=vec;
@@ -111,7 +110,12 @@ for (int i=0;i<N;++i) {
 }
 */
 
-
+std::vector<int> iterator_for_vector_list=vec;
+std::vector<std::vector<int>> vectors;
+for (int i=0;i<N;++i) {
+	vectors.push_back(iterator_for_vector_list);
+	iterator_for_vector_list=next_vector(iterator_for_vector_list,d);
+}
 
 std::vector<int> sum_matrix[N][N];
 for (int i=0;i<N;++i) {
@@ -162,6 +166,19 @@ for (int i=0;i<N;++i) {
 	}
 }
 
-std::cout<<tuples;
+std::cout<<"\ntuples that appear at least twice: \n"<<tuples<<"\n";
+
+std::vector<int> iterate_tuple;
+for (int r=0;r<tuples.size();++r) {
+	std::vector<std::vector<int>> tuple_r=tuples[r];
+	std::stringstream s;
+	for (int m=0;m<tuple_r.size();++m) {
+		iterate_tuple=tuple_r[m];
+		s<<vectors[iterate_tuple[0]]<<"+"<<vectors[iterate_tuple[1]]<<((m==tuple_r.size()-1) ? "" : "=");
+	}
+	std::cout<<"\n"<<s.str();
+}
+
+
 
 }
