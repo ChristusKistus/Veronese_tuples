@@ -91,85 +91,103 @@ std::ostream& operator<<(std::ostream& os, const std::vector<T>& xs) {
 }
 
 
+std::vector<std::vector<int>> vectors(int n,int d) {
+	std::vector<int> vec(n+1);
+	vec[0]=d;
+	int N=binomial(n+d,d);
+	std::vector<std::vector<int>> output;
+	for (int i=0;i<N;++i) {
+		output.push_back(vec);
+		if (i!=N-1) {
+			vec=next_vector(vec,d);
+		}
+	}
+	return output;
+}
+
+
+
+
+std::vector<std::vector<std::vector<int>>> sum_matrix(int n,int d) {
+	std::vector<int> vec_i(n+1);
+	std::vector<int> vec_j(n+1);
+	vec_i[0]=d;
+	vec_j[0]=d;
+	int N=binomial(n+d,d);
+	std::vector<std::vector<std::vector<int>>> sum(N, std::vector<std::vector<int>>(N, std::vector<int>(n)));
+	for (int i=0;i<N;++i) {
+		for (int j=i;j<N;++j) {
+			sum[i][j]=add(vec_i,vec_j);
+			if (j==N-1 && i!=N-1) {
+				vec_j=next_vector(vec_i,d);
+			}
+			else if (i!=N-1) {
+				vec_j=next_vector(vec_j,d);
+			}
+		}
+		if (i!=N-1) {
+			vec_i=next_vector(vec_i,d);
+		}
+	}
+
+	return sum;
+}
+
+std::vector<std::vector<std::vector<int>>> tuples(int n, int d) {
+	std::vector<int> iterator_vec=sum_matrix(n,d)[0][0];
+	std::vector<int> zero{};
+	std::vector<std::vector<int>> current_tuple;
+	std::vector<std::vector<std::vector<int>>> output;
+	int N=binomial(n+d,d);
+	std::vector<std::vector<std::vector<int>>> sum=sum_matrix(n,d);
+	for (int i=0;i<N;++i) {
+		for (int j=i;j<N;++j) {
+			current_tuple={};
+			if (sum[i][j]==zero) {
+				continue;
+			}
+			else {
+				iterator_vec=sum[i][j];
+			}
+			for (int k=0;k<N;++k) {
+				for (int l=0;l<N;++l) {
+					// std::cout<<i<<" "<<j<<" "<<k<<" "<<l<<"\n";
+					if (sum[k][l]==iterator_vec && (i!=k || j!=l)) {
+						current_tuple.push_back({k,l});
+						sum[k][l]=zero;
+					}
+				}
+			}
+			sum[i][j]=zero;
+			if (current_tuple.size()!=0) {
+				current_tuple.push_back({i,j});
+				output.push_back(current_tuple);
+			}
+		}
+	}
+	return output;
+}
+
 
 int main() {
 
-int n=1;
-int d=8;
+int n=2;
+int d=2;
 
-// vec is the standard starting vector, i.e. the biggest vector with sum of d.
-std::vector<int> vec(n+1);
-vec[0]=d;
+//std::cout<<"\ntuples with sums that appear at least twice: \n"<<tuples(n,d)<<"\n";
 
-// N is the number of possible derivations from vec, i.e. how many vectors there are which have sum of d
-int N=binomial(n+d,d);
+//std::cout<<"\n"<<(tuples(n,d)).size()<<(tuples(n,d).size()==1 ? " sum appears" : " sums appear")<<" at least twice";
 
-// some vectors for iteration
-std::vector<int> iterator_vector_i=vec;
-std::vector<int> iterator_vector_j=vec;
 
-std::vector<int> iterator_for_vector_list=vec;
-std::vector<std::vector<int>> vectors;
-for (int i=0;i<N;++i) {
-	vectors.push_back(iterator_for_vector_list);
-	if (i!=N-1) {
-		iterator_for_vector_list=next_vector(iterator_for_vector_list,d);
+
+for (int D=0;D<5;++D) {
+	for (int N=0;N<5;++N) {
+		std::cout<<(tuples(N,D)).size()<<" sums appear least twice for (n,d) = "<<"("<<N<<","<<D<<")\n";
 	}
 }
 
-std::vector<int> sum_matrix[N][N];
-for (int i=0;i<N;++i) {
-	for (int j=i;j<N;++j) {
-		// std::cout<<"\n it_i is: "<<iterator_vector_i<<"\n it_j is"<<iterator_vector_j<<"\n";
-		sum_matrix[i][j]=add(iterator_vector_i,iterator_vector_j);
-		if (j==N-1 && i!=N-1) {
-			iterator_vector_j=next_vector(iterator_vector_i,d);
-		}
-		else if (i!=N-1) {
-			iterator_vector_j=next_vector(iterator_vector_j,d);
-		}
-	}
-	if (i!=N-1) {
-		iterator_vector_i=next_vector(iterator_vector_i,d);
-	}
-}
 
-std::vector<std::vector<std::vector<int>>> tuples;
-std::vector<int> zero{};
-
-std::vector<std::vector<int>> current_tuple;
-std::vector<int> iterator_vec=sum_matrix[0][0];
-for (int i=0;i<N;++i) {
-	for (int j=i;j<N;++j) {
-		current_tuple={};
-		if (sum_matrix[i][j]==zero) {
-			continue;
-		}
-		else {
-			iterator_vec=sum_matrix[i][j];
-		}
-		for (int k=0;k<N;++k) {
-			for (int l=0;l<N;++l) {
-				// std::cout<<i<<" "<<j<<" "<<k<<" "<<l<<"\n";
-				if (sum_matrix[k][l]==iterator_vec && (i!=k || j!=l)) {
-					current_tuple.push_back({k,l});
-					sum_matrix[k][l]=zero;
-				}
-			}
-		}
-		sum_matrix[i][j]=zero;
-
-		if (current_tuple.size()!=0) {
-			current_tuple.push_back({i,j});
-			tuples.push_back(current_tuple);
-		}
-	}
-}
-
-std::cout<<"\ntuples with sums that appear at least twice: \n"<<tuples<<"\n";
-
-std::cout<<"\n"<<tuples.size()<<(tuples.size()==1 ? " sum appears" : " sums appear")<<" at least twice";
-
+/*
 std::cout<<"\ncorresponding to the following additions:" ;
 std::vector<int> iterate_tuple;
 for (int r=0;r<tuples.size();++r) {
@@ -181,6 +199,6 @@ for (int r=0;r<tuples.size();++r) {
 	}
 	std::cout<<"\n"<<s.str();
 }
-
+*/
 
 }
