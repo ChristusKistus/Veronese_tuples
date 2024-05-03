@@ -192,19 +192,19 @@ int matrix_max_length(std::vector<std::vector<int>> in) {
 
 void print_matrix(std::vector<std::vector<int>> in, char x, char y) {
 	int max_length=matrix_max_length(in);
-	std::cout<<"\n    |";
+	std::cout<<"\n    ┃";
 	for (int k=0;k<in[0].size();++k) {
 		if (k==0) {
 			std::cout<<x<<"=0"<<pad("",max_length-3);
 			continue;	
 		}
-		std::cout<<"|"<<pad(std::to_string(k),max_length-(std::to_string(k)).length());
+		std::cout<<"┃"<<pad(std::to_string(k),max_length-(std::to_string(k)).length());
 	}
-	std::cout<<"\n____";
+	std::cout<<"\n━━━━";
 	for (int k=0;k<in[0].size();++k) {
-		std::cout<<"⊥";
+		std::cout<<"╋";
 		for (int l=0;l<max_length;++l) {
-			std::cout<<"_";
+			std::cout<<"━";
 		}
 	}
 	std::cout<<"\n";
@@ -217,7 +217,7 @@ void print_matrix(std::vector<std::vector<int>> in, char x, char y) {
 				std::cout<<" "<<i<<"  ";
 				//std::cout<<" "<<pad(std::to_string(i),max_length-(std::to_string(i)).length());
 			}
-			std::cout<<"|"<<pad(std::to_string(in[i][j]),max_length-(std::to_string(in[i][j])).length());
+			std::cout<<"┃"<<pad(std::to_string(in[i][j]),max_length-(std::to_string(in[i][j])).length());
 		}
 		std::cout<<"\n";
 	}
@@ -237,25 +237,16 @@ auto vector_output=vectors(n,d);
 
 //std::cout<<"\ntuples with sums that appear at least twice: \n"<<output<<"\n";
 
-std::cout<<"\n"<<(output).size()<<(output.size()==1 ? " sum appears" : " sums appear")<<" at least twice";
-
+//std::cout<<"\n"<<(output).size()<<(output.size()==1 ? " sum appears" : " sums appear")<<" at least twice";
 
 /*
-for (int D=0;D<6;++D) {
-	for (int N=0;N<6;++N) {
-		std::cout<<(tuples(N,D)).size()<<" sums appear least twice for (n,d) = "<<"("<<N<<","<<D<<")\n";
-	}
-}
-*/
-
-
 unsigned long eq_counter=0;
 for (int r=0;r<output.size();++r) {
 	std::vector<std::vector<short>> tuple_r=output[r];
 	eq_counter+=((tuple_r.size()-1)*(tuple_r.size()))/2;
 }
 std::cout<<"\nthese sums create a total number of "<<eq_counter<<" equations.";
-
+*/
 
 /*
 std::cout<<"\ncorresponding to the following additions:" ;
@@ -273,7 +264,7 @@ for (int r=0;r<output.size();++r) {
 
 
 int dim_n=6;
-int dim_d=4;
+int dim_d=6;
 unsigned long count=0;
 std::vector<std::vector<short>> it_tup;
 std::vector<std::vector<int>> n_d_matrix(dim_n, std::vector<int>(dim_d,0));
@@ -290,7 +281,5 @@ for (int i=0;i<dim_n;++i) {
 }
 std::cout<<"\nmatrix of number of equations: \n";
 print_matrix(n_d_matrix,'d','n');
-
-
 
 }
