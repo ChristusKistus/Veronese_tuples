@@ -179,7 +179,7 @@ std::string pad(std::string s, int n) {
 }
 
 int matrix_max_length(std::vector<std::vector<int>> in) {
-	int max=0;
+	int max=3;
 	for (int i=0;i<in.size();++i) {
 		for (int j=0;j<in[0].size();++j) {
 			if (std::to_string(in[i][j]).length()>max) {
@@ -192,9 +192,20 @@ int matrix_max_length(std::vector<std::vector<int>> in) {
 
 void print_matrix(std::vector<std::vector<int>> in, char x, char y) {
 	int max_length=matrix_max_length(in);
-	std::cout<<"\n   "<<x<<"=";
+	std::cout<<"\n    |";
 	for (int k=0;k<in[0].size();++k) {
-		std::cout<<pad(std::to_string(k),max_length-(std::to_string(k)).length())<<" ";
+		if (k==0) {
+			std::cout<<x<<"=0"<<pad("",max_length-3);
+			continue;	
+		}
+		std::cout<<"|"<<pad(std::to_string(k),max_length-(std::to_string(k)).length());
+	}
+	std::cout<<"\n____";
+	for (int k=0;k<in[0].size();++k) {
+		std::cout<<"⊥";
+		for (int l=0;l<max_length;++l) {
+			std::cout<<"_";
+		}
 	}
 	std::cout<<"\n";
 	for (int i=0;i<in.size();++i) {
@@ -206,7 +217,7 @@ void print_matrix(std::vector<std::vector<int>> in, char x, char y) {
 				std::cout<<" "<<i<<"  ";
 				//std::cout<<" "<<pad(std::to_string(i),max_length-(std::to_string(i)).length());
 			}
-			std::cout<<" "<<pad(std::to_string(in[i][j]),max_length-(std::to_string(in[i][j])).length());
+			std::cout<<"|"<<pad(std::to_string(in[i][j]),max_length-(std::to_string(in[i][j])).length());
 		}
 		std::cout<<"\n";
 	}
@@ -261,8 +272,8 @@ for (int r=0;r<output.size();++r) {
 */
 
 
-int dim_n=3;
-int dim_d=19;
+int dim_n=6;
+int dim_d=4;
 unsigned long count=0;
 std::vector<std::vector<short>> it_tup;
 std::vector<std::vector<int>> n_d_matrix(dim_n, std::vector<int>(dim_d,0));
@@ -277,8 +288,8 @@ for (int i=0;i<dim_n;++i) {
 		n_d_matrix[i][j]=count;
 	}
 }
+std::cout<<"\nmatrix of number of equations: \n";
 print_matrix(n_d_matrix,'d','n');
-
 
 
 
