@@ -178,6 +178,21 @@ std::string pad(std::string s, int n) {
 	return s;
 }
 
+std::string pad_center(std::string s, int n) {
+	if (n==0) {
+		return s;
+	}
+	for (int i=0;i<n/2;++i) {
+		s=" "+s;
+	}
+ 	for (int i=0;i<(n-n/2);++i) {
+		s=s+" ";
+	}
+	return s;
+}
+
+
+
 int matrix_max_length(std::vector<std::vector<int>> in) {
 	int max=3;
 	for (int i=0;i<in.size();++i) {
@@ -198,7 +213,7 @@ void print_matrix(std::vector<std::vector<int>> in, char x, char y) {
 			std::cout<<x<<"=0"<<pad("",max_length-3);
 			continue;	
 		}
-		std::cout<<"┃"<<pad(std::to_string(k),max_length-(std::to_string(k)).length());
+		std::cout<<"┃"<<pad_center(std::to_string(k),max_length-(std::to_string(k)).length());
 	}
 	std::cout<<"\n━━━━";
 	for (int k=0;k<in[0].size();++k) {
@@ -218,6 +233,13 @@ void print_matrix(std::vector<std::vector<int>> in, char x, char y) {
 				//std::cout<<" "<<pad(std::to_string(i),max_length-(std::to_string(i)).length());
 			}
 			std::cout<<"┃"<<pad(std::to_string(in[i][j]),max_length-(std::to_string(in[i][j])).length());
+		}
+		std::cout<<"\n━━━━";
+		for (int k=0;k<in[0].size();++k) {
+			std::cout<<"╋";
+			for (int l=0;l<max_length;++l) {
+				std::cout<<"━";
+			}
 		}
 		std::cout<<"\n";
 	}
