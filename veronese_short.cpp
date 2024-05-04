@@ -236,7 +236,7 @@ void print_matrix(std::vector<std::vector<int>> in, char x, char y) {
 		}
 		std::cout<<"\n━━━━";
 		for (int k=0;k<in[0].size();++k) {
-			std::cout<<"╋";
+			std::cout<<(i!=in.size()-1 ? "╋" : "┻");
 			for (int l=0;l<max_length;++l) {
 				std::cout<<"━";
 			}
@@ -250,25 +250,28 @@ void print_matrix(std::vector<std::vector<int>> in, char x, char y) {
 
 int main() {
 
-short n=6;
-short d=1;
-//2*d+n+1 choose n?
+short n=8;
+short d=4;
 
 auto output=tuples(n,d);
 auto vector_output=vectors(n,d);
 
 //std::cout<<"\ntuples with sums that appear at least twice: \n"<<output<<"\n";
 
-//std::cout<<"\n"<<(output).size()<<(output.size()==1 ? " sum appears" : " sums appear")<<" at least twice";
+std::cout<<"\n"<<(output).size()<<(output.size()==1 ? " sum appears" : " sums appear")<<" at least twice";
 
-/*
+
 unsigned long eq_counter=0;
 for (int r=0;r<output.size();++r) {
 	std::vector<std::vector<short>> tuple_r=output[r];
 	eq_counter+=((tuple_r.size()-1)*(tuple_r.size()))/2;
 }
 std::cout<<"\nthese sums create a total number of "<<eq_counter<<" equations.";
-*/
+
+
+
+
+
 
 /*
 std::cout<<"\ncorresponding to the following additions:" ;
@@ -285,6 +288,34 @@ for (int r=0;r<output.size();++r) {
 */
 
 
+
+
+
+// output number of equations with sums of vectors v,w with v0+w0 = (something between 0 and 2d)
+std::vector<short> iterate_tuple2;
+std::vector<int> sum_at_0_count(2*d,0);
+std::vector<int> display_vec(2*d,0);
+for (int r=0;r<2*d;++r) {
+	display_vec[r]=r;
+}
+int current_0_sum;
+for (int r=0;r<output.size();++r) {
+	std::vector<std::vector<short>> tuple_r=output[r];
+	iterate_tuple2=tuple_r[0];
+	current_0_sum=(vector_output[iterate_tuple2[0]])[0]+(vector_output[iterate_tuple2[1]])[0];
+	sum_at_0_count[current_0_sum]+=binomial(tuple_r.size(),2);
+}
+std::cout<<"\nnumber of equations with sum of \n"<<display_vec<<"\n at place 0:\n"<<sum_at_0_count<<"\n";
+
+
+
+
+
+
+
+
+//output matrix that shows the number of equations for n,d
+/*
 int dim_n=6;
 int dim_d=6;
 unsigned long count=0;
@@ -301,7 +332,50 @@ for (int i=0;i<dim_n;++i) {
 		n_d_matrix[i][j]=count;
 	}
 }
-std::cout<<"\nmatrix of number of equations: \n";
+std::cout<<"\nmatrix of number of equations(i dont know the formula): \n";
 print_matrix(n_d_matrix,'d','n');
+std::cout<<"\nWHAT THE FUCK IS THE FORMULA TELL ME AHHHHHHHHHHHHHHHHHH";
+*/
+
+
+
+
+
+
+//output the matrix of the number of non-unique sums for n,d
+/*
+int dim_x=6;
+int dim_y=6;
+std::vector<std::vector<int>> x_y_matrix(dim_x, std::vector<int>(dim_y,0));
+for (int i=0;i<dim_x;++i) {
+	for (int j=0;j<dim_y;++j) {
+		x_y_matrix[i][j]=binomial(2*j+i,i)-(i+1)*(i+1);
+	}
+}
+std::cout<<"\n\nmatrix of number of non-unique sums(using formula): \n";
+print_matrix(x_y_matrix,'d','n');
+*/
+
+
+
+
+
+//output a test matrix
+/*
+int dim_x2=6;
+int dim_y2=6;
+std::vector<std::vector<int>> x2_y2_matrix(dim_x2, std::vector<int>(dim_y2,0));
+for (int i=0;i<dim_x2;++i) {
+	for (int j=0;j<dim_y2;++j) {
+		x2_y2_matrix[i][j]=binomial(binomial(i+1,2)+1,2);
+	}
+}
+std::cout<<"\n\nmatrix: test function\n";
+print_matrix(x2_y2_matrix,'d','n');
+
+*/
+
+
+
 
 }
