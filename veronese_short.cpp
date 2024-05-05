@@ -1,6 +1,7 @@
 #include<iostream>
 #include<vector>
 #include<sstream>
+#include<algorithm>
 
 int fac(int m) {
 	if (m==0) {
@@ -250,8 +251,8 @@ void print_matrix(std::vector<std::vector<int>> in, char x, char y) {
 
 int main() {
 
-short n=8;
-short d=4;
+short n=4;
+short d=3;
 
 auto output=tuples(n,d);
 auto vector_output=vectors(n,d);
@@ -288,9 +289,36 @@ for (int r=0;r<output.size();++r) {
 */
 
 
+//output how many sums appear exactly 0,1,2,3... times
+int max_tup_length;
+for (int r=0;r<output.size();++r) {
+	if (max_tup_length<output[r].size()) {
+		max_tup_length=output[r].size();
+	}
+}
+std::cout<<max_tup_length;
+std::vector<short> iterate_tuple3;
+std::vector<int> display_vec(max_tup_length+1,0);
+for (int i=0;i<max_tup_length+1;++i) {
+	display_vec[i]=i;
+}
+int size_r=0;
+std::vector<int> multiplicity(max_tup_length+1,0);
+for (int r=0;r<output.size();++r) {
+	size_r=output[r].size();
+	multiplicity[size_r]+=1;
+}
+std::cout<<"\nmultiplicity of sums ot \n"<<display_vec<<"\n are (excluding those that appear ocne):\n"<<multiplicity<<"\n";
 
 
 
+
+
+
+
+
+
+/*
 // output number of equations with sums of vectors v,w with v0+w0 = (something between 0 and 2d)
 std::vector<short> iterate_tuple2;
 std::vector<int> sum_at_0_count(2*d,0);
@@ -306,7 +334,7 @@ for (int r=0;r<output.size();++r) {
 	sum_at_0_count[current_0_sum]+=binomial(tuple_r.size(),2);
 }
 std::cout<<"\nnumber of equations with sum of \n"<<display_vec<<"\n at place 0:\n"<<sum_at_0_count<<"\n";
-
+*/
 
 
 
