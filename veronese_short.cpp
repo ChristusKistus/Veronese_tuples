@@ -251,7 +251,7 @@ void print_matrix(std::vector<std::vector<int>> in, char x, char y) {
 
 int main() {
 
-short n=4;
+short n=5;
 short d=3;
 
 auto output=tuples(n,d);
@@ -259,9 +259,11 @@ auto vector_output=vectors(n,d);
 
 //std::cout<<"\ntuples with sums that appear at least twice: \n"<<output<<"\n";
 
-std::cout<<"\n"<<(output).size()<<(output.size()==1 ? " sum appears" : " sums appear")<<" at least twice";
+std::cout<<"\nfor (n,d)=("<<n<<","<<d<<"), "<<(output).size()<<(output.size()==1 ? " sum appears" : " sums appear")<<" at least twice";
 
 
+
+//count how many euqation there are for (n,d)
 unsigned long eq_counter=0;
 for (int r=0;r<output.size();++r) {
 	std::vector<std::vector<short>> tuple_r=output[r];
@@ -275,6 +277,7 @@ std::cout<<"\nthese sums create a total number of "<<eq_counter<<" equations.";
 
 
 /*
+//output all representations of the vector-sums
 std::cout<<"\ncorresponding to the following additions:" ;
 std::vector<short> iterate_tuple;
 for (int r=0;r<output.size();++r) {
@@ -288,7 +291,7 @@ for (int r=0;r<output.size();++r) {
 }
 */
 
-
+/*
 //output how many sums appear exactly 0,1,2,3... times
 int max_tup_length;
 for (int r=0;r<output.size();++r) {
@@ -296,7 +299,6 @@ for (int r=0;r<output.size();++r) {
 		max_tup_length=output[r].size();
 	}
 }
-std::cout<<max_tup_length;
 std::vector<short> iterate_tuple3;
 std::vector<int> display_vec(max_tup_length+1,0);
 for (int i=0;i<max_tup_length+1;++i) {
@@ -308,9 +310,14 @@ for (int r=0;r<output.size();++r) {
 	size_r=output[r].size();
 	multiplicity[size_r]+=1;
 }
-std::cout<<"\nmultiplicity of sums ot \n"<<display_vec<<"\n are (excluding those that appear ocne):\n"<<multiplicity<<"\n";
-
-
+std::cout<<"\nmultiplicity of sums ot \n"<<display_vec<<"\n are (excluding those that appear once):\n"<<multiplicity<<"\n";
+int sum_at_least_t_times;
+int t=3;
+for (int i=t;i<multiplicity.size();++i) {
+	sum_at_least_t_times+=multiplicity[i];
+}
+std::cout<<"\n there are "<<sum_at_least_t_times<<" sums that get hit "<<t<<" or more times\n";
+*/
 
 
 
@@ -343,7 +350,7 @@ std::cout<<"\nnumber of equations with sum of \n"<<display_vec<<"\n at place 0:\
 
 
 //output matrix that shows the number of equations for n,d
-/*
+
 int dim_n=6;
 int dim_d=6;
 unsigned long count=0;
@@ -360,10 +367,10 @@ for (int i=0;i<dim_n;++i) {
 		n_d_matrix[i][j]=count;
 	}
 }
-std::cout<<"\nmatrix of number of equations(i dont know the formula): \n";
+std::cout<<"\nmatrix of number of equations: \n";
 print_matrix(n_d_matrix,'d','n');
-std::cout<<"\nWHAT THE FUCK IS THE FORMULA TELL ME AHHHHHHHHHHHHHHHHHH";
-*/
+
+
 
 
 
